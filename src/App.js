@@ -1,21 +1,25 @@
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import TodoList from './pages/list/list';
-import TodoDetail from './pages/detail/detail';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import ListTasks from './pages/listTasks/listTasks';
+import DetailTask from './pages/detailTask/detailTask';
+import NewTask from './pages/newTask/newTask';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={TodoList}></Route>
-        <Route path="/details/:id" exact component={TodoDetail}></Route>
-        <Redirect from="/details/" to="/"></Redirect>
-      </Switch>
-    </Router>
+    <Switch>
+      <Route exact path="/">
+        <ListTasks />
+      </Route>
+      <Route path="/new-task">
+        <NewTask />
+      </Route>
+      <Route path="/details-task/:id">
+        <DetailTask />
+      </Route>
+      <Route path="/complete-tasks">
+        <DetailTask />
+      </Route>
+      <Redirect from="/details/" to="/"></Redirect>
+    </Switch>
   );
 }
 
