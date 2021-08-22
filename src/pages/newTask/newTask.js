@@ -1,8 +1,8 @@
 import React from 'react';
+import FormCreateTask from '../../components/createTask/formCreateTask';
 
 const NewTask = () => {
-  console.log('NewTask');
-  return <div>NewTask</div>;
+  return <FormCreateTask />;
 };
 
 export default NewTask;
