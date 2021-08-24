@@ -1,22 +1,22 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
-import ListTasks from './pages/listTasks/listTasks';
-import DetailTask from './pages/detailTask/detailTask';
-import NewTask from './pages/newTask/newTask';
+import ListTasksPage from './pages/listTasks/listTasksPage';
+import DetailTaskPage from './pages/detailTask/detailTaskPage';
+import NewTaskPage from './pages/newTask/newTaskPage';
 
 function App() {
   return (
     <Switch>
       <Route exact path="/">
-        <ListTasks />
+        <ListTasksPage />
       </Route>
       <Route path="/new-task">
-        <NewTask />
+        <NewTaskPage />
       </Route>
       <Route path="/details-task/:id">
-        <DetailTask />
+        <DetailTaskPage />
       </Route>
       <Route path="/complete-tasks">
-        <DetailTask />
+        <DetailTaskPage />
       </Route>
       <Redirect from="/details/" to="/"></Redirect>
     </Switch>

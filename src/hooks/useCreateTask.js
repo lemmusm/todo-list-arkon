@@ -13,6 +13,7 @@ export const useCreateTask = () => {
 
   // state for duration select
   const [duration, setDuration] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
 
   // initialize react form
   const {
@@ -33,6 +34,23 @@ export const useCreateTask = () => {
   const handleChangeDuration = (event) => {
     const value = event.target.value;
     setDuration(value);
+
+    // when select "custom duration" open modal
+    if (value === 0) {
+      setModalOpen(true);
+    }
+  };
+
+  // handle close modal, when modal is close duration value = '' (None)
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setDuration('');
+  };
+
+  // handle set custom duration
+  const handleAcceptModal = (value) => {
+    setDuration(value);
+    setModalOpen(false);
   };
 
   // return properties
@@ -42,6 +60,9 @@ export const useCreateTask = () => {
     formState: { errors },
     duration,
     handleChangeDuration,
+    modalOpen,
+    handleCloseModal,
+    handleAcceptModal,
     handleSubmit,
   };
 };

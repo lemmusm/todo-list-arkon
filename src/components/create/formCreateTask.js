@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
   },
+  form: {
+    background: 'white',
+    borderRadius: '10px',
+    padding: '2em',
+  },
 }));
 
 const FormCreateTask = () => {
@@ -41,10 +46,10 @@ const FormCreateTask = () => {
 
   return (
     <>
-      <Typography variant="h5" className={classes.title}>
-        Create task
-      </Typography>
-      <form onSubmit={handleSubmit(handleNewTask)}>
+      <form className={classes.form} onSubmit={handleSubmit(handleNewTask)}>
+        <Typography variant="h5" className={classes.title}>
+          Create new task
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
             <TextField

@@ -2,13 +2,13 @@ import React from 'react';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 import App from '../App';
 import Navbar from '../components/shared/navbar';
-import { blueGrey } from '@material-ui/core/colors';
+import { blueGrey, grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     color: blueGrey[800],
     flexGrow: 1,
-    height: 440,
+    height: '100vh',
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    height: '100%',
+    backgroundColor: grey[100],
     padding: theme.spacing(3, 15), // default value for spacing are 8px
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(3, 3),
