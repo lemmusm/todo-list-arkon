@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Checkbox,
   Grid,
   IconButton,
@@ -8,15 +9,18 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
+  makeStyles,
   Typography,
   withStyles,
 } from '@material-ui/core';
-import { deepPurple } from '@material-ui/core/colors';
+import { deepPurple, grey } from '@material-ui/core/colors';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTaskList } from '../../hooks/useTaskList';
+import { Link, withRouter } from 'react-router-dom';
 
+// style
 const CustomListItem = withStyles({
   root: {
     background: 'white',
@@ -53,12 +57,22 @@ const CustomMessage = withStyles({
   },
 })(Typography);
 
+const useStyles = makeStyles((theme) => ({
+  durationTxt: {
+    color: grey[500],
+    fontSize: '.7em',
+  },
+}));
+
 const TaskList = () => {
+  // get classes from style
+  const classes = useStyles();
+
   // access to custome hook properties
   const {
     handleDeleteTask,
     handleCompleteTask,
-    handleEditTask,
+    handleGetEditTask,
     uncompleteTasks,
   } = useTaskList();
 
@@ -66,7 +80,39 @@ const TaskList = () => {
     <CustomMessage variant="h5">There is no tasks to show</CustomMessage>
   ) : (
     <>
-      <Typography variant="h5">All tasks</Typography>
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+      >
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          xs={6}
+        >
+          <Typography variant="h5">All tasks</Typography>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          xs={6}
+        >
+          <Link
+            style={{ textDecoration: 'none', color: 'white' }}
+            exact
+            to="/new-task"
+          >
+            <Button variant="contained" color="primary">
+              Create task
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
       <List>
         {uncompleteTasks.map((task) => (
           <CustomListItem key={task.id}>
@@ -75,18 +121,22 @@ const TaskList = () => {
                 <PlayCircleFilledIcon fontSize="large" />
               </IconButton>
             </ListItemIcon>
-
             <Grid item sm={6}>
-              <ListItemText
-                primary={task.name}
-                secondary={task.description}
-              ></ListItemText>
+              <Grid item sm={12}>
+                <ListItemText
+                  primary={task.name}
+                  secondary={task.description}
+                ></ListItemText>
+              </Grid>
+              <Grid className={classes.durationTxt} item sm={12}>
+                {task.duration} min
+              </Grid>
             </Grid>
             <Grid item sm={6}></Grid>
             <ListItemSecondaryAction>
               <IconButton
                 onClick={() => {
-                  handleEditTask(task.id);
+                  handleGetEditTask(task.id);
                 }}
               >
                 <EditIcon />
@@ -113,4 +163,4 @@ const TaskList = () => {
   );
 };
 
-export default TaskList;
+export default withRouter(TaskList);

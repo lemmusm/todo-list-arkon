@@ -9,6 +9,7 @@ const taskSlice = createSlice({
   // if localData is null or undefined the value = [] o initial value
   initialState: {
     tasks: localData ?? [],
+    currentTask: {},
   },
   reducers: {
     addTask: {
@@ -29,41 +30,44 @@ const taskSlice = createSlice({
         },
       }),
     },
-    removeTask: {
-      reducer: (state, { payload }) => {
-        // get index from selected task
-        const index = state.tasks.findIndex((task) => task.id === payload);
-        // remove selected element from state and local storage
-        state.tasks.splice(index);
-        // update local storage with state value
-        localStorage.setItem('tasks', JSON.stringify(state.tasks));
-        // when local storage is "null" or "undefined" set []
-        localData = localData ?? [];
-      },
+    removeTask: (state, { payload }) => {
+      // filter tasks to remove selected
+      const tasksFilter = state.tasks.filter((task) => task.id !== payload);
+      state.tasks = tasksFilter;
+      // update local storage with state value
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
+      // when local storage is "null" or "undefined" set []
+      localData = localData ?? [];
+    },
+    getEditTask: (state, { payload }) => {
+      // get task from list
+      const task = state.tasks.find((task) => task.id === payload);
+      state.currentTask = task;
     },
     completedTask: (state, { payload }) => {
-      // get index from selected task
+      // get task from list
       const task = state.tasks.find((task) => task.id === payload);
       // update value
       task.isComplete = !task.isComplete;
       // update local storage with state value
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
-    editTask: {
-      reduce: (state, { payload }) => {
-        // get index from selected task
-        const task = state.tasks.find((task) => task.id === payload);
-        task.description = payload.description;
-        task.duration = payload.duration;
-        task.isUpdated = Date.now();
-      },
-      prepare: ({ description, duration, isUpdated }) => ({
+    editTask: (
+      state,
+      {
         payload: {
-          description,
-          duration,
-          isUpdated: Date.now(),
+          id,
+          data: { description, duration },
         },
-      }),
+      }
+    ) => {
+      // get task from list and edit
+      const task = state.tasks.find((task) => task.id === id);
+      task.description = description;
+      task.duration = duration;
+      task.isUpdated = Date.now();
+      // set state in local storage
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
   },
 });
@@ -72,7 +76,8 @@ const taskSlice = createSlice({
 const { actions, reducer } = taskSlice;
 
 // destructuring actions
-export const { addTask, editTask, removeTask, completedTask } = actions;
+export const { addTask, getEditTask, editTask, removeTask, completedTask } =
+  actions;
 
 // export reducer
 export default reducer;
