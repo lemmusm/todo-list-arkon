@@ -76,9 +76,7 @@ const TaskList = () => {
     uncompleteTasks,
   } = useTaskList();
 
-  return !uncompleteTasks.length ? (
-    <CustomMessage variant="h5">There is no tasks to show</CustomMessage>
-  ) : (
+  return (
     <>
       <Grid
         container
@@ -113,52 +111,56 @@ const TaskList = () => {
           </Link>
         </Grid>
       </Grid>
-      <List>
-        {uncompleteTasks.map((task) => (
-          <CustomListItem key={task.id}>
-            <ListItemIcon>
-              <IconButton>
-                <PlayCircleFilledIcon fontSize="large" />
-              </IconButton>
-            </ListItemIcon>
-            <Grid item sm={6}>
-              <Grid item sm={12}>
-                <ListItemText
-                  primary={task.name}
-                  secondary={task.description}
-                ></ListItemText>
+      {!uncompleteTasks.length ? (
+        <CustomMessage variant="h5">There is no tasks to show</CustomMessage>
+      ) : (
+        <List>
+          {uncompleteTasks.map((task) => (
+            <CustomListItem key={task.id}>
+              <ListItemIcon>
+                <IconButton>
+                  <PlayCircleFilledIcon fontSize="large" />
+                </IconButton>
+              </ListItemIcon>
+              <Grid item sm={6}>
+                <Grid item sm={12}>
+                  <ListItemText
+                    primary={task.name}
+                    secondary={task.description}
+                  ></ListItemText>
+                </Grid>
+                <Grid className={classes.durationTxt} item sm={12}>
+                  {task.duration} min
+                </Grid>
               </Grid>
-              <Grid className={classes.durationTxt} item sm={12}>
-                {task.duration} min
-              </Grid>
-            </Grid>
-            <Grid item sm={6}></Grid>
-            <ListItemSecondaryAction>
-              <IconButton
-                onClick={() => {
-                  handleGetEditTask(task.id);
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  handleDeleteTask(task.id);
-                }}
-              >
-                <DeleteForeverIcon />
-              </IconButton>
-              <CustomCheckbox
-                edge="end"
-                value={task.isComplete}
-                onChange={() => {
-                  handleCompleteTask(task.id);
-                }}
-              />
-            </ListItemSecondaryAction>
-          </CustomListItem>
-        ))}
-      </List>
+              <Grid item sm={6}></Grid>
+              <ListItemSecondaryAction>
+                <IconButton
+                  onClick={() => {
+                    handleGetEditTask(task.id);
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    handleDeleteTask(task.id);
+                  }}
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+                <CustomCheckbox
+                  edge="end"
+                  value={task.isComplete}
+                  onChange={() => {
+                    handleCompleteTask(task.id);
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </CustomListItem>
+          ))}
+        </List>
+      )}
     </>
   );
 };
