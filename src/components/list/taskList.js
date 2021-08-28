@@ -16,9 +16,13 @@ import {
 import { deepPurple, grey } from '@material-ui/core/colors';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import StopIcon from '@material-ui/icons/Stop';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTaskList } from '../../hooks/useTaskList';
 import { Link, withRouter } from 'react-router-dom';
+import CountdownTimer from '../countdown/countdownTimer';
+import { useCountdownTimer } from '../../hooks/useCountdownTimer';
 
 // style
 const CustomListItem = withStyles({
@@ -69,42 +73,19 @@ const TaskList = () => {
   const classes = useStyles();
 
   // access to custome hook properties
-  const {
-    handleDeleteTask,
-    handleCompleteTask,
-    handleGetEditTask,
-    uncompleteTasks,
-  } = useTaskList();
+  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, uncompleteTasks } =
+    useTaskList();
+
+  const { handleInitCounter, handleResetCounter } = useCountdownTimer();
 
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-      >
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="center"
-          xs={6}
-        >
+      <Grid container direction="row" justifyContent="flex-end" alignItems="center">
+        <Grid container item direction="row" justifyContent="flex-start" alignItems="center" xs={6}>
           <Typography variant="h5">All tasks</Typography>
         </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          xs={6}
-        >
-          <Link
-            style={{ textDecoration: 'none', color: 'white' }}
-            exact
-            to="/new-task"
-          >
+        <Grid container item direction="row" justifyContent="flex-end" alignItems="center" xs={6}>
+          <Link style={{ textDecoration: 'none', color: 'white' }} to="/new-task">
             <Button variant="contained" color="primary">
               Create task
             </Button>
@@ -118,30 +99,53 @@ const TaskList = () => {
           {uncompleteTasks.map((task) => (
             <CustomListItem key={task.id}>
               <ListItemIcon>
-                <IconButton>
-                  <PlayCircleFilledIcon fontSize="large" />
-                </IconButton>
+                <Grid container direction="row" justifyContent="center" alignItems="center">
+                  <Grid item sm={6}>
+                    <IconButton onClick={() => handleInitCounter(task.id)}>
+                      {task.isPaused ? (
+                        <PlayCircleFilledIcon fontSize="large" />
+                      ) : (
+                        <PauseCircleFilledIcon fontSize="large" />
+                      )}
+                    </IconButton>
+                  </Grid>
+                  <Grid item sm={6}>
+                    {task.isReset ? null : (
+                      <IconButton onClick={() => handleResetCounter(task.id)}>
+                        <StopIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </Grid>
+                </Grid>
               </ListItemIcon>
               <Grid item sm={6}>
                 <Grid item sm={12}>
-                  <ListItemText
-                    primary={task.name}
-                    secondary={task.description}
-                  ></ListItemText>
+                  <ListItemText primary={task.name} secondary={task.description}></ListItemText>
                 </Grid>
                 <Grid className={classes.durationTxt} item sm={12}>
                   {task.duration} min
                 </Grid>
               </Grid>
-              <Grid item sm={6}></Grid>
+              <Grid item sm={6}>
+                {task.remainingTime.hours === 0 &&
+                task.remainingTime.minutes === 0 &&
+                task.remainingTime.seconds === 0 ? null : (
+                  <CountdownTimer
+                    hours={task.remainingTime.hours}
+                    minutes={task.remainingTime.minutes}
+                    seconds={task.remainingTime.seconds}
+                  />
+                )}
+              </Grid>
               <ListItemSecondaryAction>
-                <IconButton
-                  onClick={() => {
-                    handleGetEditTask(task.id);
-                  }}
+                <Link
+                  style={{ textDecoration: 'none', color: 'white' }}
+                  to={`/details-task/${task.id}`}
                 >
-                  <EditIcon />
-                </IconButton>
+                  <IconButton onClick={() => handleGetEditTask(task.id)}>
+                    <EditIcon />
+                  </IconButton>
+                </Link>
                 <IconButton
                   onClick={() => {
                     handleDeleteTask(task.id);
