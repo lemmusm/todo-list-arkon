@@ -69,7 +69,6 @@ export const useCountdownTimer = () => {
 
     // Time up
     if (hours === 0 && minutes === 0 && seconds === 0) {
-      dispatch(setStatusPaused({ id, isReset }));
       dispatch(setStatusReset({ id, isReset }));
       dispatch(setCompletedTask(id));
     } else if (minutes === 0 && seconds === 0) {
@@ -90,6 +89,7 @@ export const useCountdownTimer = () => {
   };
 
   const handleResetCounter = (id) => {
+    if (!isPaused) dispatch(setStatusPaused({ id, isPaused }));
     dispatch(
       setRemainingTime({
         id,
@@ -100,6 +100,5 @@ export const useCountdownTimer = () => {
     );
     dispatch(setStatusReset({ id, isReset }));
   };
-
   return { handleInitCounter, handleResetCounter };
 };
