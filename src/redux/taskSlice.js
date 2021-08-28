@@ -104,7 +104,8 @@ const taskSlice = createSlice({
     setStatusPaused: (state, { payload: { id, isPaused } }) => {
       const task = state.tasks.find((task) => task.id === id);
       state.currentTask = task;
-      state.currentTask.isPaused = !isPaused;
+      task.isPaused = !isPaused;
+      task.isUpdated = Date.now();
       // update tasks in local storage
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
