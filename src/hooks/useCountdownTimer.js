@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setStatusPaused, setRemainingTime, currentTask, setStatusReset } from '../redux/taskSlice';
+import {
+  setStatusPaused,
+  setRemainingTime,
+  currentTask,
+  setStatusReset,
+  setCompletedTask,
+} from '../redux/taskSlice';
 
 export const useCountdownTimer = () => {
   // redux selectors/dispach
@@ -63,8 +69,9 @@ export const useCountdownTimer = () => {
 
     // Time up
     if (hours === 0 && minutes === 0 && seconds === 0) {
-      // TODO: TO MARK COMPLETE
+      dispatch(setStatusPaused({ id, isReset }));
       dispatch(setStatusReset({ id, isReset }));
+      dispatch(setCompletedTask(id));
     } else if (minutes === 0 && seconds === 0) {
       // decrement hour
       dispatch(setRemainingTime({ id, hours: hours - 1, minutes: 59, seconds: 59 }));

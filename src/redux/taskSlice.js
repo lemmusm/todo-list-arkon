@@ -75,7 +75,7 @@ const taskSlice = createSlice({
       const task = state.tasks.find((task) => task.id === payload);
       state.currentTask = task;
     },
-    completedTask: (state, { payload }) => {
+    setCompletedTask: (state, { payload }) => {
       // get task from list
       const task = state.tasks.find((task) => task.id === payload);
       // update value
@@ -156,7 +156,7 @@ export const {
   getEditTask,
   editTask,
   removeTask,
-  completedTask,
+  setCompletedTask,
   setStatusPaused,
   setStatusReset,
   setRemainingTime,
