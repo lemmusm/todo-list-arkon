@@ -1,8 +1,20 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeTask, setCompletedTask, getEditTask, allTasks } from '../redux/taskSlice';
+import {
+  removeTask,
+  setCompletedTask,
+  getEditTask,
+  allTasks,
+  setToggleTasks,
+  toggleState,
+  filterTasks,
+  setFilterTasks,
+} from '../redux/taskSlice';
 
 export const useTaskList = () => {
   const tasks = useSelector(allTasks);
+  const fTasks = useSelector(filterTasks);
+  const toggle = useSelector(toggleState);
   const dispatch = useDispatch();
 
   // Descending order tasks descending
@@ -29,11 +41,22 @@ export const useTaskList = () => {
     dispatch(setCompletedTask(id));
   };
 
+  // toggle tasks
+  const handleChangeToggle = () => {
+    dispatch(setToggleTasks(toggle));
+  };
+
+  useEffect(() => {
+    toggle ? dispatch(setFilterTasks(completeTasks)) : dispatch(setFilterTasks(uncompleteTasks));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toggle, tasks]);
+
   return {
     handleGetEditTask,
     handleDeleteTask,
     handleCompleteTask,
-    uncompleteTasks,
-    completeTasks,
+    fTasks,
+    handleChangeToggle,
+    toggle,
   };
 };

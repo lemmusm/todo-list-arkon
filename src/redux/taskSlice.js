@@ -2,19 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
 // access to local storage and convert string value to json object
-let localData = JSON.parse(localStorage.getItem('tasks'));
+let localStorageData = JSON.parse(localStorage.getItem('tasks'));
+let localStoraToggle = JSON.parse(localStorage.getItem('toggleTasks'));
 
 // access to local storage to get tasks
 /* export const loadAllTasks = createAsyncThunk('loadAllTasks', async () => {
-  const tasks = (await localData) ?? [];
+  const tasks = (await localStorageData) ?? [];
   return tasks;
 }); */
 
 const taskSlice = createSlice({
   name: 'todos',
-  // if localData is null or undefined the value = [] o initial value
+  // if localStorageData is null or undefined the value = [] o initial value
   initialState: {
-    tasks: localData ?? [],
+    tasks: localStorageData ?? [],
+    filterTasks: [],
     currentTask: {
       id: 0,
       name: '',
@@ -33,6 +35,7 @@ const taskSlice = createSlice({
       isUpdated: '',
     },
     loading: false,
+    toggleTasks: localStoraToggle ?? false,
   },
   reducers: {
     addTask: {
@@ -61,6 +64,9 @@ const taskSlice = createSlice({
         },
       }),
     },
+    setFilterTasks: (state, { payload }) => {
+      state.filterTasks = payload;
+    },
     removeTask: (state, { payload }) => {
       // filter tasks to remove selected
       const tasksFilter = state.tasks.filter((task) => task.id !== payload);
@@ -68,7 +74,7 @@ const taskSlice = createSlice({
       // update local storage with state value
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
       // when local storage is "null" or "undefined" set []
-      localData = localData ?? [];
+      localStorageData = localStorageData ?? [];
     },
     getEditTask: (state, { payload }) => {
       // get task from list
@@ -133,6 +139,12 @@ const taskSlice = createSlice({
       // update tasks in local storage
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
+    setToggleTasks: (state, { payload }) => {
+      // update togle value
+      state.toggleTasks = !payload;
+      // update toggle in local storage
+      localStorage.setItem('toggleTasks', JSON.stringify(state.toggleTasks));
+    },
   },
   extraReducers: {
     /* [loadAllTasks.pending]: (state, action) => {
@@ -154,6 +166,7 @@ const { actions, reducer } = taskSlice;
 // destructuring actions
 export const {
   addTask,
+  setFilterTasks,
   getEditTask,
   editTask,
   removeTask,
@@ -161,10 +174,13 @@ export const {
   setStatusPaused,
   setStatusReset,
   setRemainingTime,
+  setToggleTasks,
 } = actions;
 
 export const currentTask = (state) => state.taskReducer.currentTask;
 export const allTasks = (state) => state.taskReducer.tasks;
+export const filterTasks = (state) => state.taskReducer.filterTasks;
+export const toggleState = (state) => state.taskReducer.toggleTasks;
 
 // export reducer
 export default reducer;

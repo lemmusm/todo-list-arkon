@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Button,
   Checkbox,
   Grid,
   IconButton,
@@ -70,31 +69,20 @@ const TaskList = () => {
   const classes = useStyles();
 
   // access to custome hook properties
-  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, uncompleteTasks } =
-    useTaskList();
+  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks } = useTaskList();
 
   return (
     <>
-      <Grid container direction="row" justifyContent="flex-end" alignItems="center">
-        <Grid container item direction="row" justifyContent="flex-start" alignItems="center" xs={6}>
-          <Typography variant="h5">All tasks</Typography>
-        </Grid>
-        <Grid container item direction="row" justifyContent="flex-end" alignItems="center" xs={6}>
-          <Link style={{ textDecoration: 'none', color: 'white' }} to="/new-task">
-            <Button variant="contained" color="primary">
-              Create task
-            </Button>
-          </Link>
-        </Grid>
-      </Grid>
-      {!uncompleteTasks.length ? (
+      {!fTasks.length ? (
         <CustomMessage variant="h5">There is no tasks to show</CustomMessage>
       ) : (
         <List>
-          {uncompleteTasks.map((task) => (
+          {fTasks.map((task) => (
             <CustomListItem key={task.id}>
               <ListItemIcon>
-                <ControlsCountdown id={task.id} isReset={task.isReset} isPaused={task.isPaused} />
+                {!task.isComplete ? (
+                  <ControlsCountdown id={task.id} isReset={task.isReset} isPaused={task.isPaused} />
+                ) : null}
               </ListItemIcon>
               <Grid item sm={6}>
                 <Grid item sm={12}>
@@ -116,14 +104,16 @@ const TaskList = () => {
                 )}
               </Grid>
               <ListItemSecondaryAction>
-                <Link
-                  style={{ textDecoration: 'none', color: 'white' }}
-                  to={`/details-task/${task.id}`}
-                >
-                  <IconButton onClick={() => handleGetEditTask(task.id, task.isPaused)}>
-                    <EditIcon />
-                  </IconButton>
-                </Link>
+                {!task.isComplete ? (
+                  <Link
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    to={`/details-task/${task.id}`}
+                  >
+                    <IconButton onClick={() => handleGetEditTask(task.id, task.isPaused)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
+                ) : null}
                 <IconButton
                   onClick={() => {
                     handleDeleteTask(task.id);
@@ -131,13 +121,15 @@ const TaskList = () => {
                 >
                   <DeleteForeverIcon />
                 </IconButton>
-                <CustomCheckbox
-                  edge="end"
-                  value={task.isComplete}
-                  onChange={() => {
-                    handleCompleteTask(task.id);
-                  }}
-                />
+                {!task.isComplete ? (
+                  <CustomCheckbox
+                    edge="end"
+                    value={task.isComplete}
+                    onChange={() => {
+                      handleCompleteTask(task.id);
+                    }}
+                  />
+                ) : null}
               </ListItemSecondaryAction>
             </CustomListItem>
           ))}
