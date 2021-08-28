@@ -1,21 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { removeTask, completedTask, getEditTask } from '../redux/taskSlice';
+import { removeTask, completedTask, getEditTask, allTasks } from '../redux/taskSlice';
 
 export const useTaskList = () => {
-  const tasks = useSelector((state) => state.taskReducer.tasks);
+  const tasks = useSelector(allTasks);
   const dispatch = useDispatch();
-
-  // navigation
-  const history = useHistory();
 
   // Descending order tasks descending
   const tasksReverse = [...tasks].sort((a, b) => b.isUpdated - a.isUpdated);
 
   // filter uncomplete tasks
-  const uncompleteTasks = tasksReverse.filter(
-    (task) => task.isComplete === false
-  );
+  const uncompleteTasks = tasksReverse.filter((task) => task.isComplete === false);
 
   // filter complete tasks
   const completeTasks = tasksReverse.filter((task) => task.isComplete === true);
@@ -28,7 +22,6 @@ export const useTaskList = () => {
   // dispatch action creator to get to seleted task
   const handleGetEditTask = (id) => {
     dispatch(getEditTask(id));
-    history.push(`/details-task/${id}`);
   };
 
   // dispatch action creator to mark task as completed
@@ -37,7 +30,6 @@ export const useTaskList = () => {
   };
 
   return {
-    tasksReverse,
     handleGetEditTask,
     handleDeleteTask,
     handleCompleteTask,
