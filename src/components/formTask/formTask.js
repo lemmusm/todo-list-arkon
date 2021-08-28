@@ -37,8 +37,7 @@ const FormTask = () => {
   const classes = useStyles();
 
   // access to properties of custom hook
-  const { isAddForm, handleNewEditTask, control, formState, handleSubmit } =
-    useTask();
+  const { isAddForm, handleNewEditTask, control, formState, handleSubmit } = useTask();
 
   return (
     <>
@@ -88,11 +87,7 @@ const FormTask = () => {
             />
           </Grid>
           <Grid item xs={12} md={12}>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
+            <FormControl variant="outlined" fullWidth className={classes.formControl}>
               <InputLabel id="duration-label">Duration</InputLabel>
               <Controller
                 control={control}
@@ -110,19 +105,11 @@ const FormTask = () => {
                 )}
               />
               <FormHelperText className={classes.errorMsj}>
-                {formState.errors.duration?.type === 'required' &&
-                  'Select a duration for the task'}
+                {formState.errors.duration?.type === 'required' && 'Select a duration for the task'}
               </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            container
-            direction="row"
-            justifyContent="flex-end"
-          >
+          <Grid item xs={12} md={12} container direction="row" justifyContent="flex-end">
             <Button type="submit" variant="contained" color="primary">
               {isAddForm ? 'Create task' : 'Edit task'}
             </Button>
