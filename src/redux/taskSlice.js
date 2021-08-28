@@ -75,7 +75,7 @@ const taskSlice = createSlice({
       const task = state.tasks.find((task) => task.id === payload);
       state.currentTask = task;
     },
-    completedTask: (state, { payload }) => {
+    setCompletedTask: (state, { payload }) => {
       // get task from list
       const task = state.tasks.find((task) => task.id === payload);
       // update value
@@ -104,7 +104,8 @@ const taskSlice = createSlice({
     setStatusPaused: (state, { payload: { id, isPaused } }) => {
       const task = state.tasks.find((task) => task.id === id);
       state.currentTask = task;
-      state.currentTask.isPaused = !isPaused;
+      task.isPaused = !isPaused;
+      task.isUpdated = Date.now();
       // update tasks in local storage
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
@@ -156,7 +157,7 @@ export const {
   getEditTask,
   editTask,
   removeTask,
-  completedTask,
+  setCompletedTask,
   setStatusPaused,
   setStatusReset,
   setRemainingTime,

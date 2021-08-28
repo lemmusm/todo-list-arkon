@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { removeTask, completedTask, getEditTask, allTasks } from '../redux/taskSlice';
+import { removeTask, setCompletedTask, getEditTask, allTasks } from '../redux/taskSlice';
 
 export const useTaskList = () => {
   const tasks = useSelector(allTasks);
@@ -26,7 +26,7 @@ export const useTaskList = () => {
 
   // dispatch action creator to mark task as completed
   const handleCompleteTask = (id) => {
-    dispatch(completedTask(id));
+    dispatch(setCompletedTask(id));
   };
 
   return {
