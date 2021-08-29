@@ -5,13 +5,13 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import StopIcon from '@material-ui/icons/Stop';
 
-const ControlsCountdown = ({ id, isPaused, isReset }) => {
+const ControlsCountdown = ({ id, isPaused, isReset, isComplete }) => {
   const { handleInitCounter, handleResetCounter } = useCountdownTimer();
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
       <Grid item sm={6}>
-        <IconButton onClick={() => handleInitCounter(id)}>
+        <IconButton disabled={isComplete ? true : false} onClick={() => handleInitCounter(id)}>
           {isPaused ? (
             <PlayCircleFilledIcon fontSize="large" />
           ) : (
@@ -21,7 +21,7 @@ const ControlsCountdown = ({ id, isPaused, isReset }) => {
       </Grid>
       <Grid item sm={6}>
         {isReset ? null : (
-          <IconButton onClick={() => handleResetCounter(id)}>
+          <IconButton disabled={isComplete ? true : false} onClick={() => handleResetCounter(id)}>
             <StopIcon fontSize="small" />
           </IconButton>
         )}

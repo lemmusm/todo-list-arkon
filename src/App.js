@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 import ListTasksPage from './pages/listTasks/listTasksPage';
-import DetailTaskPage from './pages/detailTask/detailTaskPage';
+import FilterTaskPage from './pages/filterTask/filterTaskPage';
 import CreateUpdatePage from './pages/form/formPage';
 
 function App() {
@@ -15,8 +15,8 @@ function App() {
       <Route path="/details-task/:id">
         <CreateUpdatePage />
       </Route>
-      <Route path="/complete-tasks">
-        <DetailTaskPage />
+      <Route path="/filtering-tasks">
+        <FilterTaskPage />
       </Route>
       <Redirect from="/details/" to="/"></Redirect>
     </Switch>
