@@ -92,7 +92,7 @@ const FormTask = () => {
               <Controller
                 control={control}
                 name="duration"
-                rules={{ required: 'Description task is required' }}
+                rules={{ required: 'Select a duration for the task' }}
                 render={({ field, fieldState: { error } }) => (
                   <Select {...field} error={!!error}>
                     <MenuItem value="">

@@ -15,8 +15,6 @@ import {
 import { deepPurple, grey } from '@material-ui/core/colors';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
-import { useTaskList } from '../../hooks/useTaskList';
-import { Link, withRouter } from 'react-router-dom';
 import CountdownTimer from '../countdown/countdownTimer';
 import ControlsCountdown from '../countdown/controlsCountdown';
 
@@ -62,14 +60,14 @@ const useStyles = makeStyles((theme) => ({
     color: grey[500],
     fontSize: '.7em',
   },
+  complete: {
+    background: '#e0e0e0',
+  },
 }));
 
-const TaskList = () => {
+const TaskList = ({ handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks }) => {
   // get classes from style
   const classes = useStyles();
-
-  // access to custome hook properties
-  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks } = useTaskList();
 
   return (
     <>
@@ -78,59 +76,66 @@ const TaskList = () => {
       ) : (
         <List>
           {fTasks.map((task) => (
-            <CustomListItem key={task.id}>
-              <ListItemIcon>
-                {!task.isComplete ? (
-                  <ControlsCountdown id={task.id} isReset={task.isReset} isPaused={task.isPaused} />
-                ) : null}
-              </ListItemIcon>
-              <Grid item sm={6}>
-                <Grid item sm={12}>
-                  <ListItemText primary={task.name} secondary={task.description}></ListItemText>
+            <CustomListItem
+              disabled={task.isComplete ? true : false}
+              key={task.id}
+              className={task.isComplete ? classes.complete : null}
+            >
+              <Grid container item direction="row" justifyContent="center" alignItems="center">
+                <Grid item xs={12} sm={3} style={{ textAlign: 'center' }}>
+                  <ListItemIcon>
+                    <ControlsCountdown
+                      id={task.id}
+                      isReset={task.isReset}
+                      isComplete={task.isComplete}
+                      isPaused={task.isPaused}
+                    />
+                  </ListItemIcon>
                 </Grid>
-                <Grid className={classes.durationTxt} item sm={12}>
-                  {task.duration} min
+                <Grid item xs={9} sm={3}>
+                  <Grid item sm={12}>
+                    <ListItemText primary={task.name} secondary={task.description}></ListItemText>
+                  </Grid>
+                  <Grid className={classes.durationTxt} item sm={12}>
+                    {task.duration} min
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid item sm={6}>
-                {task.remainingTime.hours === 0 &&
-                task.remainingTime.minutes === 0 &&
-                task.remainingTime.seconds === 0 ? null : (
-                  <CountdownTimer
-                    hours={task.remainingTime.hours}
-                    minutes={task.remainingTime.minutes}
-                    seconds={task.remainingTime.seconds}
-                  />
-                )}
-              </Grid>
-              <ListItemSecondaryAction>
-                {!task.isComplete ? (
-                  <Link
-                    style={{ textDecoration: 'none', color: 'white' }}
-                    to={`/details-task/${task.id}`}
+                <Grid item xs={3} sm={3}>
+                  {task.remainingTime.hours === 0 &&
+                  task.remainingTime.minutes === 0 &&
+                  task.remainingTime.seconds === 0 ? null : (
+                    <CountdownTimer
+                      hours={task.remainingTime.hours}
+                      minutes={task.remainingTime.minutes}
+                      seconds={task.remainingTime.seconds}
+                    />
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={3} style={{ textAlign: 'center' }}>
+                  <IconButton
+                    disabled={task.isComplete ? true : false}
+                    onClick={() => handleGetEditTask(task.id, task.isPaused)}
                   >
-                    <IconButton onClick={() => handleGetEditTask(task.id, task.isPaused)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Link>
-                ) : null}
-                <IconButton
-                  onClick={() => {
-                    handleDeleteTask(task.id);
-                  }}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
-                {!task.isComplete ? (
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    disabled={task.isComplete ? true : false}
+                    onClick={() => {
+                      handleDeleteTask(task.id);
+                    }}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
                   <CustomCheckbox
+                    disabled={task.isComplete ? true : false}
                     edge="end"
                     value={task.isComplete}
                     onChange={() => {
                       handleCompleteTask(task.id);
                     }}
                   />
-                ) : null}
-              </ListItemSecondaryAction>
+                </Grid>
+              </Grid>
             </CustomListItem>
           ))}
         </List>
@@ -139,4 +144,4 @@ const TaskList = () => {
   );
 };
 
-export default withRouter(TaskList);
+export default TaskList;

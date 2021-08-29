@@ -33,7 +33,7 @@ const ToggleTasks = () => {
         <FormControlLabel
           value="start"
           control={<CustomSwitch onChange={handleChangeToggle} checked={toggle} />}
-          label="Completed tasks"
+          label="Completed"
           labelPlacement="start"
         />
       </FormGroup>

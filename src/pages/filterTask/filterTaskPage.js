@@ -1,12 +1,10 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Grid, Typography } from '@material-ui/core';
 import TaskList from '../../components/list/taskList';
-import ToggleTasks from '../../components/list/toggleTasks';
 import { useTaskList } from '../../hooks/useTaskList';
+import SelectFilter from '../../components/list/selectFilter';
 
-const ListTasksPage = () => {
-  // access to custom hook properties
+const FilterTaskPage = () => {
   const { handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks, toggle } = useTaskList();
 
   return (
@@ -19,9 +17,9 @@ const ListTasksPage = () => {
           justifyContent="flex-start"
           alignItems="center"
           xs={12}
-          md={4}
+          md={3}
         >
-          <Typography variant="h5">{!toggle ? 'Pending tasks' : 'Completed tasks'}</Typography>
+          <Typography variant="h5">Filtering tasks</Typography>
         </Grid>
         <Grid
           container
@@ -30,14 +28,9 @@ const ListTasksPage = () => {
           justifyContent="flex-end"
           alignItems="center"
           xs={12}
-          md={8}
+          md={9}
         >
-          <ToggleTasks />
-          <Link style={{ textDecoration: 'none', color: 'white' }} to="/new-task">
-            <Button variant="contained" color="primary">
-              Create task
-            </Button>
-          </Link>
+          <SelectFilter />
         </Grid>
       </Grid>
       <TaskList
@@ -51,4 +44,4 @@ const ListTasksPage = () => {
   );
 };
 
-export default ListTasksPage;
+export default FilterTaskPage;

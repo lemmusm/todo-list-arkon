@@ -1,6 +1,5 @@
 import FormatListBulletedOutlinedIcon from '@material-ui/icons/FormatListBulletedOutlined';
-import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
-//import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
+import FilterListOutlinedIcon from '@material-ui/icons/FilterListOutlined';
 
 const tasksRoutes = [
   {
@@ -9,15 +8,10 @@ const tasksRoutes = [
     icon: <FormatListBulletedOutlinedIcon />,
     exact: true,
   },
-  /* {
-    title: 'New task',
-    to: '/new-task',
-    icon: <NoteAddOutlinedIcon />,
-  }, */
   {
-    title: 'Completed',
-    to: '/complete-tasks',
-    icon: <AssignmentTurnedInOutlinedIcon />,
+    title: 'Other filters',
+    to: '/filtering-tasks',
+    icon: <FilterListOutlinedIcon />,
   },
 ];
 
