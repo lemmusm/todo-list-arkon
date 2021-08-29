@@ -6,14 +6,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSidebar } from '../../hooks/useSidebar';
+import { deepPurple, grey } from '@material-ui/core/colors';
 import Sidebar from './sidebar';
-import { deepPurple } from '@material-ui/core/colors';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    background: 'transparent',
+    backgroundColor: grey[100],
     boxShadow: 'none',
     color: deepPurple['A700'],
     [theme.breakpoints.up('sm')]: {
@@ -52,10 +52,7 @@ const Navbar = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Sidebar
-        mobileOpen={mobileOpen}
-        handleDrawerToggle={handleDrawerToggle}
-      ></Sidebar>
+      <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}></Sidebar>
     </>
   );
 };

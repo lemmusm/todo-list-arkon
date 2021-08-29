@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     zIndex: 1,
-    overflow: 'hidden',
     position: 'relative',
     display: 'flex',
     width: '100%',
@@ -34,7 +33,7 @@ const Layout = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Navbar></Navbar>
+      <Navbar />
       <div className={classes.content}>
         <div className={classes.toolbar} />
         <App />

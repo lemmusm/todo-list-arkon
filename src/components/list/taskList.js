@@ -81,57 +81,61 @@ const TaskList = ({ handleDeleteTask, handleCompleteTask, handleGetEditTask, fTa
               key={task.id}
               className={task.isComplete ? classes.complete : null}
             >
-              <ListItemIcon>
-                <ControlsCountdown
-                  id={task.id}
-                  isReset={task.isReset}
-                  isComplete={task.isComplete}
-                  isPaused={task.isPaused}
-                />
-              </ListItemIcon>
-              <Grid item sm={6}>
-                <Grid item sm={12}>
-                  <ListItemText primary={task.name} secondary={task.description}></ListItemText>
+              <Grid container item direction="row" justifyContent="center" alignItems="center">
+                <Grid item xs={12} sm={3} style={{ textAlign: 'center' }}>
+                  <ListItemIcon>
+                    <ControlsCountdown
+                      id={task.id}
+                      isReset={task.isReset}
+                      isComplete={task.isComplete}
+                      isPaused={task.isPaused}
+                    />
+                  </ListItemIcon>
                 </Grid>
-                <Grid className={classes.durationTxt} item sm={12}>
-                  {task.duration} min
+                <Grid item xs={9} sm={3}>
+                  <Grid item sm={12}>
+                    <ListItemText primary={task.name} secondary={task.description}></ListItemText>
+                  </Grid>
+                  <Grid className={classes.durationTxt} item sm={12}>
+                    {task.duration} min
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid item sm={6}>
-                {task.remainingTime.hours === 0 &&
-                task.remainingTime.minutes === 0 &&
-                task.remainingTime.seconds === 0 ? null : (
-                  <CountdownTimer
-                    hours={task.remainingTime.hours}
-                    minutes={task.remainingTime.minutes}
-                    seconds={task.remainingTime.seconds}
+                <Grid item xs={3} sm={3}>
+                  {task.remainingTime.hours === 0 &&
+                  task.remainingTime.minutes === 0 &&
+                  task.remainingTime.seconds === 0 ? null : (
+                    <CountdownTimer
+                      hours={task.remainingTime.hours}
+                      minutes={task.remainingTime.minutes}
+                      seconds={task.remainingTime.seconds}
+                    />
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={3} style={{ textAlign: 'center' }}>
+                  <IconButton
+                    disabled={task.isComplete ? true : false}
+                    onClick={() => handleGetEditTask(task.id, task.isPaused)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    disabled={task.isComplete ? true : false}
+                    onClick={() => {
+                      handleDeleteTask(task.id);
+                    }}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                  <CustomCheckbox
+                    disabled={task.isComplete ? true : false}
+                    edge="end"
+                    value={task.isComplete}
+                    onChange={() => {
+                      handleCompleteTask(task.id);
+                    }}
                   />
-                )}
+                </Grid>
               </Grid>
-              <ListItemSecondaryAction>
-                <IconButton
-                  disabled={task.isComplete ? true : false}
-                  onClick={() => handleGetEditTask(task.id, task.isPaused)}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  disabled={task.isComplete ? true : false}
-                  onClick={() => {
-                    handleDeleteTask(task.id);
-                  }}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
-                <CustomCheckbox
-                  disabled={task.isComplete ? true : false}
-                  edge="end"
-                  value={task.isComplete}
-                  onChange={() => {
-                    handleCompleteTask(task.id);
-                  }}
-                />
-              </ListItemSecondaryAction>
             </CustomListItem>
           ))}
         </List>

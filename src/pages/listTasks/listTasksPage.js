@@ -19,7 +19,7 @@ const ListTasksPage = () => {
           justifyContent="flex-start"
           alignItems="center"
           xs={12}
-          md={3}
+          md={4}
         >
           <Typography variant="h5">{!toggle ? 'Pending tasks' : 'Completed tasks'}</Typography>
         </Grid>
@@ -30,7 +30,7 @@ const ListTasksPage = () => {
           justifyContent="flex-end"
           alignItems="center"
           xs={12}
-          md={9}
+          md={8}
         >
           <ToggleTasks />
           <Link style={{ textDecoration: 'none', color: 'white' }} to="/new-task">
