@@ -6,14 +6,22 @@ import {
   currentTask,
   setStatusReset,
   setCompletedTask,
+  allTasks,
 } from '../redux/taskSlice';
 
 export const useCountdownTimer = () => {
   // redux selectors/dispach
   const dispatch = useDispatch();
   const task = useSelector(currentTask);
+  const tasks = useSelector(allTasks);
 
-  // destructuring task
+  // get selected task
+  const getSelectedTask = (id) => {
+    const task = tasks.filter((task) => task.id === id);
+    return task[0];
+  };
+
+  // destructuring current task
   const {
     id,
     isPaused,
@@ -25,8 +33,6 @@ export const useCountdownTimer = () => {
   // render to calculate remaining time and set status reset
   useEffect(() => {
     if (!isPaused) {
-      // get HHMMSS
-
       // set calculated time with duration task
       if (hours === 0 && minutes === 0 && seconds === 0) calculateRemainingTime(duration);
 
@@ -85,6 +91,9 @@ export const useCountdownTimer = () => {
 
   // control to pause/play button
   const handleInitCounter = (id) => {
+    // get is Paused from task selected
+    const { isPaused } = getSelectedTask(id);
+    // dispatch action to init or pause
     dispatch(setStatusPaused({ id, isPaused }));
   };
 
