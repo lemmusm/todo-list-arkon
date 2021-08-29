@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
 // access to local storage and convert string value to json object
@@ -108,10 +108,18 @@ const taskSlice = createSlice({
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
     setStatusPaused: (state, { payload: { id, isPaused } }) => {
+      // set isPause to true in all items,(is functional when user init task and another one is running)
+      state.tasks.map((task) => {
+        if (task.isPaused === false) task.isPaused = true;
+        return task;
+      });
+
+      // get task
       const task = state.tasks.find((task) => task.id === id);
-      state.currentTask = task;
+      // update values
       task.isPaused = !isPaused;
       task.isUpdated = Date.now();
+      state.currentTask = task;
       // update tasks in local storage
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
