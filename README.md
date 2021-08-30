@@ -19,6 +19,7 @@
   - reduxjs/toolkit
   - react-router-dom
   - react-hook-form
+  - react-chartjs-2
 - MaterialUI
 
 ## Author
