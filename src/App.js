@@ -2,6 +2,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import ListTasksPage from './pages/listTasks/listTasksPage';
 import FilterTaskPage from './pages/filterTask/filterTaskPage';
 import CreateUpdatePage from './pages/form/formPage';
+import ChartPage from './pages/charts/chartPage';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
       </Route>
       <Route path="/filtering-tasks">
         <FilterTaskPage />
+      </Route>
+      <Route path="/chart-tasks">
+        <ChartPage />
       </Route>
       <Redirect from="/details/" to="/"></Redirect>
     </Switch>

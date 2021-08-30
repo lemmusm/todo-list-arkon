@@ -1,5 +1,6 @@
 import FormatListBulletedOutlinedIcon from '@material-ui/icons/FormatListBulletedOutlined';
 import FilterListOutlinedIcon from '@material-ui/icons/FilterListOutlined';
+import TimelineIcon from '@material-ui/icons/Timeline';
 
 const tasksRoutes = [
   {
@@ -12,6 +13,11 @@ const tasksRoutes = [
     title: 'Other filters',
     to: '/filtering-tasks',
     icon: <FilterListOutlinedIcon />,
+  },
+  {
+    title: 'Charts',
+    to: '/chart-tasks',
+    icon: <TimelineIcon />,
   },
 ];
 

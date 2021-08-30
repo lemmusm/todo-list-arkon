@@ -56,8 +56,6 @@ export const useTaskList = () => {
     const totalTime = calculateTimeToComplete(id);
     // dispatch action to mark as complete
     dispatch(setCompletedTask({ id, totalTime }));
-
-    console.log();
   };
 
   // toggle tasks
