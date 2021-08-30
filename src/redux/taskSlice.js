@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
 // access to local storage and convert string value to json object
@@ -27,6 +27,7 @@ const taskSlice = createSlice({
         minutes: 0,
         seconds: 0,
       },
+      totalTime: 0,
       isPaused: true,
       isReset: true,
       status: 'start',
@@ -55,6 +56,7 @@ const taskSlice = createSlice({
             minutes: 0,
             seconds: 0,
           },
+          totalTime: 0,
           isPaused: true,
           isReset: true,
           status: 'start',
@@ -81,11 +83,12 @@ const taskSlice = createSlice({
       const task = state.tasks.find((task) => task.id === payload);
       state.currentTask = task;
     },
-    setCompletedTask: (state, { payload }) => {
+    setCompletedTask: (state, { payload: { id, totalTime } }) => {
       // get task from list
-      const task = state.tasks.find((task) => task.id === payload);
+      const task = state.tasks.find((task) => task.id === id);
       // update value
       task.isComplete = !task.isComplete;
+      task.totalTime = totalTime;
       task.isUpdated = Date.now();
       // update local storage with state value
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
