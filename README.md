@@ -21,6 +21,7 @@
   - react-hook-form
   - react-chartjs-2
 - MaterialUI
+- Local Storage
 
 ## Author
 
