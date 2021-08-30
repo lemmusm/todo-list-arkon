@@ -83,11 +83,12 @@ const taskSlice = createSlice({
       const task = state.tasks.find((task) => task.id === payload);
       state.currentTask = task;
     },
-    setCompletedTask: (state, { payload: { id, totalTime } }) => {
+    setCompletedTask: (state, { payload: { id, totalTime, isPaused } }) => {
       // get task from list
       const task = state.tasks.find((task) => task.id === id);
       // update value
       task.isComplete = !task.isComplete;
+      task.isPaused = !task.isPaused;
       task.totalTime = totalTime;
       task.isUpdated = Date.now();
       // update local storage with state value

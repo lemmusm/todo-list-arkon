@@ -51,11 +51,11 @@ export const useTaskList = () => {
   };
 
   // dispatch action creator to mark task as completed
-  const handleCompleteTask = (id) => {
+  const handleCompleteTask = (id, isPaused, duration) => {
     // get total time to complete task
-    const totalTime = calculateTimeToComplete(id);
+    const totalTime = calculateTimeToComplete(id, duration);
     // dispatch action to mark as complete
-    dispatch(setCompletedTask({ id, totalTime }));
+    dispatch(setCompletedTask({ id, totalTime, isPaused }));
   };
 
   // toggle tasks

@@ -22,20 +22,24 @@ export const useCountdownTimer = () => {
   };
 
   // calculate time to complete task
-  const calculateTimeToComplete = (id) => {
+  const calculateTimeToComplete = (id, duration) => {
     // get remaining time from task selected
     const {
       remainingTime: { hours, minutes, seconds },
     } = getSelectedTask(id);
 
-    // convert remaining time to minutes
+    // calculate the difference between the start time and the elapsed time
     const hoursToSeconds = hours * 3600;
     const minutesToSeconds = minutes * 60;
-    const totalSeconds = hoursToSeconds + minutesToSeconds + (60 - seconds);
+    const secondsToSeconds = seconds % 60;
+    const totalSeconds = hoursToSeconds + minutesToSeconds + secondsToSeconds;
     const secondsToMinutes = totalSeconds / 60;
 
+    // get difference in minutes
+    const differenceInMinutes = duration - secondsToMinutes;
+
     // get time in hhmmss
-    const { hrs, mins, secs } = calculateHHMMSS(secondsToMinutes);
+    const { hrs, mins, secs } = calculateHHMMSS(differenceInMinutes);
 
     return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs
       .toString()
@@ -87,10 +91,10 @@ export const useCountdownTimer = () => {
 
   // convert minutes to HHMMSS
   const calculateHHMMSS = (duration) => {
-    let minToSeconds = Number(duration) * 60;
-    const hrs = Math.floor(minToSeconds / 3600);
-    const mins = Math.floor((minToSeconds % 3600) / 60);
-    const secs = Math.floor((minToSeconds % 3600) % 60);
+    let segundos = Number(duration) * 60;
+    const hrs = Math.floor(segundos / 3600);
+    const mins = Math.floor(segundos / 60);
+    const secs = Math.floor(segundos % 60);
     return { hrs, mins, secs };
   };
 
@@ -102,7 +106,10 @@ export const useCountdownTimer = () => {
     // Time up
     if (hours === 0 && minutes === 0 && seconds === 0) {
       dispatch(setStatusReset({ id, isReset }));
-      dispatch(setCompletedTask(id));
+
+      // get total time to complete task
+      const totalTime = calculateTimeToComplete(id);
+      dispatch(setCompletedTask({ id, totalTime, isPaused }));
     } else if (minutes === 0 && seconds === 0) {
       // decrement hour
       dispatch(setRemainingTime({ id, hours: hours - 1, minutes: 59, seconds: 59 }));

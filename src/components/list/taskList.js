@@ -157,7 +157,7 @@ const TaskList = ({ handleDeleteTask, handleCompleteTask, handleGetEditTask, fTa
                     edge="end"
                     value={task.isComplete}
                     onChange={() => {
-                      handleCompleteTask(task.id);
+                      handleCompleteTask(task.id, task.isPaused, task.duration);
                     }}
                   />
                 </Grid>
