@@ -12,6 +12,7 @@ import {
   filterTasks,
   setFilterTasks,
 } from '../redux/taskSlice';
+import { useCountdownTimer } from './useCountdownTimer';
 
 export const useTaskList = () => {
   // redux
@@ -19,6 +20,7 @@ export const useTaskList = () => {
   const fTasks = useSelector(filterTasks);
   const toggle = useSelector(toggleState);
   const dispatch = useDispatch();
+  const { calculateTimeToComplete } = useCountdownTimer();
 
   // get current path
   const { pathname } = useLocation();
@@ -50,7 +52,12 @@ export const useTaskList = () => {
 
   // dispatch action creator to mark task as completed
   const handleCompleteTask = (id) => {
-    dispatch(setCompletedTask(id));
+    // get total time to complete task
+    const totalTime = calculateTimeToComplete(id);
+    // dispatch action to mark as complete
+    dispatch(setCompletedTask({ id, totalTime }));
+
+    console.log();
   };
 
   // toggle tasks

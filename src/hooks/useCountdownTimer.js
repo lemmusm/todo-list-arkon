@@ -21,6 +21,27 @@ export const useCountdownTimer = () => {
     return task[0];
   };
 
+  // calculate time to complete task
+  const calculateTimeToComplete = (id) => {
+    // get remaining time from task selected
+    const {
+      remainingTime: { hours, minutes, seconds },
+    } = getSelectedTask(id);
+
+    // convert remaining time to minutes
+    const hoursToSeconds = hours * 3600;
+    const minutesToSeconds = minutes * 60;
+    const totalSeconds = hoursToSeconds + minutesToSeconds + (60 - seconds);
+    const secondsToMinutes = totalSeconds / 60;
+
+    // get time in hhmmss
+    const { hrs, mins, secs } = calculateHHMMSS(secondsToMinutes);
+
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs
+      .toString()
+      .padStart(2, '0')}`;
+  };
+
   // destructuring current task
   const {
     id,
@@ -34,7 +55,18 @@ export const useCountdownTimer = () => {
   useEffect(() => {
     if (!isPaused) {
       // set calculated time with duration task
-      if (hours === 0 && minutes === 0 && seconds === 0) calculateRemainingTime(duration);
+      if (hours === 0 && minutes === 0 && seconds === 0) {
+        const { hrs, mins, secs } = calculateHHMMSS(duration);
+        // set remaining time in the state
+        dispatch(
+          setRemainingTime({
+            id,
+            hours: hrs,
+            minutes: mins,
+            seconds: secs,
+          })
+        );
+      }
 
       // If isPaused is false and hours, minutes and seconds are != 0 change reset state
       dispatch(setStatusReset({ id, isReset }));
@@ -54,18 +86,12 @@ export const useCountdownTimer = () => {
   }, [isPaused, hours, minutes, seconds]);
 
   // convert minutes to HHMMSS
-  const calculateRemainingTime = (duration) => {
+  const calculateHHMMSS = (duration) => {
     let minToSeconds = Number(duration) * 60;
-
-    // set remaining time in the state
-    dispatch(
-      setRemainingTime({
-        id,
-        hours: Math.floor(minToSeconds / 3600),
-        minutes: Math.floor((minToSeconds % 3600) / 60),
-        seconds: Math.floor((minToSeconds % 3600) % 60),
-      })
-    );
+    const hrs = Math.floor(minToSeconds / 3600);
+    const mins = Math.floor((minToSeconds % 3600) / 60);
+    const secs = Math.floor((minToSeconds % 3600) % 60);
+    return { hrs, mins, secs };
   };
 
   // counter logic
@@ -109,5 +135,5 @@ export const useCountdownTimer = () => {
     );
     dispatch(setStatusReset({ id, isReset }));
   };
-  return { handleInitCounter, handleResetCounter };
+  return { handleInitCounter, handleResetCounter, calculateTimeToComplete };
 };
