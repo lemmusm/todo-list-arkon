@@ -17,6 +17,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import CountdownTimer from '../countdown/countdownTimer';
 import ControlsCountdown from '../countdown/controlsCountdown';
+import { useTaskList } from '../../hooks/useTaskList';
 
 // style
 const CustomListItem = withStyles({
@@ -77,7 +78,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TaskList = ({ handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks }) => {
+const TaskList = () => {
+  // access to custom hook properties
+  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks } = useTaskList();
   // get classes from style
   const classes = useStyles();
 

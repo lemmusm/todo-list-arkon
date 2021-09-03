@@ -7,7 +7,7 @@ import { useTaskList } from '../../hooks/useTaskList';
 
 const ListTasksPage = () => {
   // access to custom hook properties
-  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks, toggle } = useTaskList();
+  const { toggle } = useTaskList();
 
   return (
     <>
@@ -40,13 +40,7 @@ const ListTasksPage = () => {
           </Link>
         </Grid>
       </Grid>
-      <TaskList
-        handleDeleteTask={handleDeleteTask}
-        handleCompleteTask={handleCompleteTask}
-        handleGetEditTask={handleGetEditTask}
-        fTasks={fTasks}
-        toggle={toggle}
-      />
+      <TaskList />
     </>
   );
 };
