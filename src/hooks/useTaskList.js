@@ -11,6 +11,7 @@ import {
   toggleState,
   filterTasks,
   setFilterTasks,
+  setStatusPaused,
 } from '../redux/taskSlice';
 import { useCountdownTimer } from './useCountdownTimer';
 
@@ -42,6 +43,12 @@ export const useTaskList = () => {
   // dispatch action creator to delete task
   const handleDeleteTask = (id) => {
     dispatch(removeTask(id));
+  };
+
+  // dispatch action creator to get to seleted task
+  const handleNewTask = (id, isPaused) => {
+    dispatch(setStatusPaused({ id, isPaused }));
+    history.push(`/new-task`);
   };
 
   // dispatch action creator to get to seleted task
@@ -87,6 +94,7 @@ export const useTaskList = () => {
   }, [toggle, tasks]);
 
   return {
+    handleNewTask,
     handleGetEditTask,
     handleDeleteTask,
     handleCompleteTask,

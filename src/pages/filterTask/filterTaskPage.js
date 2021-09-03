@@ -1,12 +1,9 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import TaskList from '../../components/list/taskList';
-import { useTaskList } from '../../hooks/useTaskList';
 import SelectFilter from '../../components/list/selectFilter';
 
 const FilterTaskPage = () => {
-  const { handleDeleteTask, handleCompleteTask, handleGetEditTask, fTasks, toggle } = useTaskList();
-
   return (
     <>
       <Grid container direction="row" justifyContent="flex-end" alignItems="center">
@@ -33,13 +30,7 @@ const FilterTaskPage = () => {
           <SelectFilter />
         </Grid>
       </Grid>
-      <TaskList
-        handleDeleteTask={handleDeleteTask}
-        handleCompleteTask={handleCompleteTask}
-        handleGetEditTask={handleGetEditTask}
-        fTasks={fTasks}
-        toggle={toggle}
-      />
+      <TaskList />
     </>
   );
 };

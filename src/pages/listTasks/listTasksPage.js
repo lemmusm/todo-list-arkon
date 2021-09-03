@@ -1,13 +1,18 @@
 import React from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import TaskList from '../../components/list/taskList';
 import ToggleTasks from '../../components/list/toggleTasks';
 import { useTaskList } from '../../hooks/useTaskList';
+import { useSelector } from 'react-redux';
+import { currentTask } from '../../redux/taskSlice';
 
 const ListTasksPage = () => {
+  // redux
+  const task = useSelector(currentTask);
+  const { id, isPaused } = task;
+
   // access to custom hook properties
-  const { toggle } = useTaskList();
+  const { toggle, handleNewTask } = useTaskList();
 
   return (
     <>
@@ -33,11 +38,9 @@ const ListTasksPage = () => {
           md={8}
         >
           <ToggleTasks />
-          <Link style={{ textDecoration: 'none', color: 'white' }} to="/new-task">
-            <Button variant="contained" color="primary">
-              Create task
-            </Button>
-          </Link>
+          <Button onClick={() => handleNewTask(id, isPaused)} variant="contained" color="primary">
+            Create task
+          </Button>
         </Grid>
       </Grid>
       <TaskList />
