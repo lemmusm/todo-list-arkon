@@ -8,6 +8,7 @@ import {
   setCompletedTask,
   allTasks,
 } from '../redux/taskSlice';
+import useUnload from './useUnload';
 
 export const useCountdownTimer = () => {
   // redux selectors/dispach
@@ -142,5 +143,14 @@ export const useCountdownTimer = () => {
     );
     dispatch(setStatusReset({ id, isReset }));
   };
+
+  // Custom hook to pause countdown if is play when refresh page or close tab
+  useUnload((e) => {
+    if (!isPaused) {
+      e.preventDefault();
+      dispatch(setStatusPaused({ id, isPaused }));
+    }
+  });
+
   return { handleInitCounter, handleResetCounter, calculateTimeToComplete };
 };
