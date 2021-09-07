@@ -11,7 +11,7 @@ const ControlsCountdown = ({ id, isPaused, isReset, isComplete }) => {
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
       <Grid item sm={6}>
-        <IconButton disabled={isComplete ? true : false} onClick={() => handleInitCounter(id)}>
+        <IconButton onClick={() => handleInitCounter(id)}>
           {isPaused ? (
             <PlayCircleFilledIcon fontSize="large" />
           ) : (
@@ -21,7 +21,7 @@ const ControlsCountdown = ({ id, isPaused, isReset, isComplete }) => {
       </Grid>
       <Grid item sm={6}>
         {isReset ? null : (
-          <IconButton disabled={isComplete ? true : false} onClick={() => handleResetCounter(id)}>
+          <IconButton onClick={() => handleResetCounter(id)}>
             <StopIcon fontSize="small" />
           </IconButton>
         )}
