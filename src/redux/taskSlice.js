@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
 // access to local storage and convert string value to json object
@@ -120,6 +120,8 @@ const taskSlice = createSlice({
 
       // get task
       const task = state.tasks.find((task) => task.id === id);
+      if (task === undefined) return;
+
       // update values
       task.isPaused = !isPaused;
       task.isUpdated = Date.now();
