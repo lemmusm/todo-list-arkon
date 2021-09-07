@@ -88,9 +88,10 @@ const taskSlice = createSlice({
       const task = state.tasks.find((task) => task.id === id);
       // update value
       task.isComplete = !task.isComplete;
-      task.isPaused = !task.isPaused;
       task.totalTime = totalTime;
       task.isUpdated = Date.now();
+      // pause task if counter is running
+      if (task.isPaused === false) task.isPaused = !isPaused;
       // update local storage with state value
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
