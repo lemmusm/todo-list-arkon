@@ -2,7 +2,7 @@ import { FormControl, FormControlLabel, FormGroup, withStyles } from '@material-
 import React from 'react';
 import Switch from '@material-ui/core/Switch';
 import { deepPurple } from '@material-ui/core/colors';
-import { useTaskList } from '../../hooks/useTaskList';
+import useToggle from '../../hooks/useToggle';
 // style
 const CustomSwitch = withStyles({
   root: {
@@ -25,7 +25,7 @@ const CustomSwitch = withStyles({
 })(Switch);
 
 const ToggleTasks = () => {
-  const { toggle, handleChangeToggle } = useTaskList();
+  const { toggle, handleChangeToggle } = useToggle();
 
   return (
     <FormControl component="fieldset">

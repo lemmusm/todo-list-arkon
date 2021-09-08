@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { Controller } from 'react-hook-form';
 import { red } from '@material-ui/core/colors';
-import { useTaskList } from '../../hooks/useTaskList';
+import useFilters from '../../hooks/useFilters';
 
 // style
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +26,7 @@ const SelectFilter = () => {
   const classes = useStyles();
 
   // access to properties of custom hook
-  const { handleChangeSelectedFilter, control, formState } = useTaskList();
+  const { handleChangeSelectedFilter, control, formState } = useFilters();
 
   return (
     <FormControl className={classes.formControl}>
